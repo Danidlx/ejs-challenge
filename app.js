@@ -11,7 +11,7 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 const app = express();
 
-mongoose.connect("mongodb://localhost:27018/blogDB", {useNewUrlParser: true});
+mongoose.connect("mongodb://mongo:27017/blogDB", {useNewUrlParser: true});
 
 // function Post(title,text) {
 // 	this.title = title;
