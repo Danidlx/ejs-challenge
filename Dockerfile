@@ -1,5 +1,5 @@
 FROM node:alpine
-WORKDIR . 
+WORKDIR /src/app 
 COPY ["package*.json", "./"]
 RUN npm i -g pm2 && npm i
 COPY . .
