@@ -7,8 +7,8 @@ services:
 
   ejs:
     restart: unless-stopped
-    build: /src/app/
-    image: ejs-challenge:latest
+    #build: /src/app/
+    image: danidlx/ejs-challenge-image
     ports:
       - 9090:3000
 
