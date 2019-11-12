@@ -1,14 +1,15 @@
 version: "3"
 services:
   mongo:
-    image: mongo:latest
+    image: mongo
     volumes:
       - mongo-data:/data/db
 
   ejs:
     restart: unless-stopped
     #build: /src/app/
-    image: danidlx/ejs-challenge-image
+    image: danidlx/ejs-challenge-imageBR
+
     ports:
       - 9090:3000
 
