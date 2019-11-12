@@ -7,7 +7,7 @@ services:
 
   ejs:
     restart: unless-stopped
-    build: .
+    build: /src/app/
     image: ejs-challenge:latest
     ports:
       - 9090:3000
