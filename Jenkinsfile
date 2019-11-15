@@ -10,7 +10,7 @@ node {
        def app = docker.build("danidlx/ejs-challenge-image:${commit_id}", '.').push()
      }
    }
-   stage('docker run){
+   stage('docker run'){
       //docker.image('danidlx/ejs-challenge-i').withRun('-e "MYSQL_ROOT_PASSWORD=my-secret-pw" -p 3306:3306')          
       println(app);    
    }
