@@ -11,8 +11,12 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 const app = express();
 
-mongoose.connect("mongodb://mongo:27017/blogDB", {useNewUrlParser: true});
+const DB_HOST = process.env.DB_HOST || "localhost";
+const DB_PORT = process.env.DB_PORT || "27017";
+const DB_NAME = process.env.DB_NAME || "wikiDB";
 
+//mongoose.connect("mongodb://127.0.0.1:27017/blogDB", {useNewUrlParser: true});
+mongoose.connect("mongodb://"+DB_HOST+":"+DB_PORT+"/"+DB_NAME, {useNewUrlParser: true});
 // function Post(title,text) {
 // 	this.title = title;
 // 	this.text = text;

@@ -12,6 +12,10 @@ services:
 
     ports:
       - 9090:3000
+    environment: 
+      DB_NAME: meubanco
+      DB_PORT: 27017
+      DB_HOST: mongo
 
 volumes:
   mongo-data:
