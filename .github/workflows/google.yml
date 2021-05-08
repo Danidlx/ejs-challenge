@@ -25,6 +25,7 @@ env:
   IMAGE: ejs-challenge
   NAMESPACE: default
   DB_HOST: mongo-mongodb
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 jobs:
   setup-build-publish-deploy:
@@ -33,6 +34,12 @@ jobs:
     environment: production
 
     steps:
+    - uses: act10ns/slack@v1
+        with:
+          status: starting
+          channel: '#pod-titans-notifications'
+        if: always()
+          
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -83,3 +90,11 @@ jobs:
         ./linux-amd64/helm -n $NAMESPACE upgrade --install $DEPLOYMENT_NAME ./helm/$DEPLOYMENT_NAME --set image.repository=gcr.io/$PROJECT_ID/$IMAGE --set image.tag=$GITHUB_SHA --set envMap.DB_HOST=$DB_HOST
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
+
+
+    - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#workflows'
+        if: always()
