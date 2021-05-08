@@ -36,12 +36,13 @@ jobs:
     environment: production
 
     steps:
-    - uses: act10ns/slack@v1
-        with:
-          status: starting
-          channel: '#devops'
-        if: always()
-          
+    # - name: Slack Notification
+    #   uses: act10ns/slack@v1
+    #     with:
+    #       status: starting
+    #       channel: '#devops'
+    #     if: always()
+
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -98,5 +99,5 @@ jobs:
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          channel: '#workflows'
+          channel: '#devops'
         if: always()
