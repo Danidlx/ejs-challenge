@@ -39,7 +39,7 @@ jobs:
     - uses: act10ns/slack@v1
         with:
           status: starting
-          channel: '#deploy'
+          channel: '#devops'
         if: always()
           
     - name: Checkout
