@@ -25,6 +25,8 @@ env:
   IMAGE: ejs-challenge
   NAMESPACE: default
   DB_HOST: mongo-mongodb
+  REPOSITORY_URL: docker.pkg.github.com
+  IMAGE_NAME: ${{ github.repository }}/alerta-cli
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 jobs:
@@ -37,7 +39,7 @@ jobs:
     - uses: act10ns/slack@v1
         with:
           status: starting
-          channel: '#pod-titans-notifications'
+          channel: '#deploy'
         if: always()
           
     - name: Checkout
