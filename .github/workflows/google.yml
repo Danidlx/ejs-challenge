@@ -43,6 +43,9 @@ jobs:
         channel: '#devops'
       if: always()
 
+    - run: |-
+        export SUCCESS=$(sed -n 5p funny_quotes.txt)
+
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -97,7 +100,7 @@ jobs:
 
     - uses: act10ns/slack@v1
       with:
-        status: ${{ job.status }} sed -n 5p funny_quotes.txt
+        status: ${{ job.status }} ${{ env.SUCCESS }}
         steps: ${{ toJson(steps) }}
         channel: '#devops'
       if: always()
