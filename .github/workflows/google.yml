@@ -72,11 +72,13 @@ jobs:
       run: |-
         curl -LO https://get.helm.sh/helm-v3.5.2-linux-amd64.tar.gz
         tar -xvzf helm-v3.5.2-linux-amd64.tar.gz
-        chmod ug+x linux-amd64/helm && mv linux-amd64/helm /bin/helm
+        chmod ug+x linux-amd64/helm 
+    
+    # && mv linux-amd64/helm /bin/helm
 
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        helm -n $NAMESPACE upgrade --install $DEPLOYMENT_NAME ./helm/$DEPLOYMENT_NAME --set image.repository=gcr.io/$PROJECT_ID/$IMAGE --set image.tag=$GITHUB_SHA
+        ./linux-amd64/helm -n $NAMESPACE upgrade --install $DEPLOYMENT_NAME ./helm/$DEPLOYMENT_NAME --set image.repository=gcr.io/$PROJECT_ID/$IMAGE --set image.tag=$GITHUB_SHA
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
