@@ -48,6 +48,7 @@ jobs:
 
     - run: |-
         export SUCCESS=$(sed -n 5p funny_quotes.txt)
+        echo $SUCCESS
     # Setup gcloud CLI
     - uses: google-github-actions/setup-gcloud@v0.2.0
       with:
