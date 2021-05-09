@@ -95,7 +95,7 @@ jobs:
     - name: Deploy
       id: deploy
       run: |-
-        hel -n $NAMESPACE upgrade --install $DEPLOYMENT_NAME ./helm/$DEPLOYMENT_NAME --set image.repository=gcr.io/$PROJECT_ID/$IMAGE --set image.tag=$GITHUB_SHA --set envMap.DB_HOST=$DB_HOST
+        helm -n $NAMESPACE upgrade --install $DEPLOYMENT_NAME ./helm/$DEPLOYMENT_NAME --set image.repository=gcr.io/$PROJECT_ID/$IMAGE --set image.tag=$GITHUB_SHA --set envMap.DB_HOST=$DB_HOST
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
 
