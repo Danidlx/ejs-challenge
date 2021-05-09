@@ -109,8 +109,8 @@ jobs:
       if: always()
       
     - run: |-
-        export RANDOM_SENTENCE=$(shuf -i 1-24 -n 1)
-        export SUCCESS=$(sed -n $RANDOM_SENTECEp .github/workflows/funny_quotes.txt)
+        export RANDOM_SENTENCE=$(shuf -i 1-24 -n 1)p
+        export SUCCESS=$(sed -n $RANDOM_SENTENCE .github/workflows/funny_quotes.txt)
         curl -X POST -H 'Content-type: application/json' --data '{"FunnyQuote":$SUCCESS }' $SLACK_WEBHOOK_URL
     
 
