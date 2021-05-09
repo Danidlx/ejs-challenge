@@ -111,7 +111,7 @@ jobs:
     - run: |-
         export RANDOM_SENTENCE=$(shuf -i 1-24 -n 1)p
         export SUCCESS=$(sed -n $RANDOM_SENTENCE .github/workflows/funny_quotes.txt)
-        curl -X POST -H 'Content-type: application/json' --data '{"FunnyQuote":$SUCCESS }' $SLACK_WEBHOOK_URL
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$SUCCESS"'"}' $SLACK_WEBHOOK_URL
     
 
     # - uses: act10ns/slack@v1
