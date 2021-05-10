@@ -86,7 +86,7 @@ jobs:
       if: always()
       
     - run: |-
-        export RANDOM_SENTENCE=$(shuf -i 1-24 -n 1)p
+        export RANDOM_SENTENCE=$(shuf -i 1-50 -n 1)p
         export SUCCESS=$(sed -n $RANDOM_SENTENCE .github/workflows/funny_quotes.txt)
         curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$SUCCESS"'"}' $SLACK_WEBHOOK_URL
       name: FunnyQuote
