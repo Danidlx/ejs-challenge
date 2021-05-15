@@ -1,11 +1,15 @@
-FROM node:stretch-slim
+FROM node:lts-alpine@sha256:ed51af876dd7932ce5c1e3b16c2e83a3f58419d824e366de1f7b00f40c848c40
 
-WORKDIR /src/app
+RUN apk add dumb-init
 
-COPY ["package*.json", "./"]
+ENV NODE_ENV production
 
-RUN npm ci
+WORKDIR /usr/src/app
 
-COPY . .
+COPY --chown=node:node package*.json /usr/src/app
 
-CMD ["node", "app.js"]
+RUN npm ci --production-only
+
+COPY --chown=node:node . /usr/src/app
+
+CMD ["dumb-init", "node", "app.js"]
