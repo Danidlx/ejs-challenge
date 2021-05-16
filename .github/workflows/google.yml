@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: cluster-hmg    # TODO: update to cluster name
+  GKE_CLUSTER: pod-titans    # TODO: update to cluster name
   GKE_ZONE: us-east1-b   # TODO: update to cluster zone
   DEPLOYMENT_NAME: ejs-challenge # TODO: update to deployment name
   IMAGE: ejs-challenge
@@ -64,29 +64,40 @@ jobs:
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
 
-    # Push the Docker image to Google Container Registry
-    - name: Publish
-      id: docker-push
-      run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
-
-    # Deploy the Docker image to the GKE cluster
-    - name: Deploy
-      id: deploy
-      run: |-
-        helm -n $NAMESPACE upgrade --install $DEPLOYMENT_NAME ./helm/$DEPLOYMENT_NAME --set image.repository=gcr.io/$PROJECT_ID/$IMAGE --set image.tag=$GITHUB_SHA --set envMap.DB_HOST=$DB_HOST
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
-        kubectl get services -o wide
-
-    - uses: act10ns/slack@v1
+    - name: Anchore scan
+      uses: anchore/scan-action@v2
+      id: scan
       with:
-        status: ${{ job.status }} 
-        steps: ${{ toJson(steps) }}
-        channel: '#devops'
-      if: always()
+        image: "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+        grype-version: "0.9.0"
+        acs-report-enable: false
+        fail-build: false
+        debug: true
+        severity-cutoff: "medium"      
+
+    # Push the Docker image to Google Container Registry
+    # - name: Publish
+    #   id: docker-push
+    #   run: |-
+    #     docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+
+    # # Deploy the Docker image to the GKE cluster
+    # - name: Deploy
+    #   id: deploy
+    #   run: |-
+    #     helm -n $NAMESPACE upgrade --install $DEPLOYMENT_NAME ./helm/$DEPLOYMENT_NAME --set image.repository=gcr.io/$PROJECT_ID/$IMAGE --set image.tag=$GITHUB_SHA --set envMap.DB_HOST=$DB_HOST
+    #     kubectl rollout status deployment/$DEPLOYMENT_NAME
+    #     kubectl get services -o wide
+
+    # - uses: act10ns/slack@v1
+    #   with:
+    #     status: ${{ job.status }} 
+    #     steps: ${{ toJson(steps) }}
+    #     channel: '#devops'
+    #   if: always()
       
-    - run: |-
-        export RANDOM_SENTENCE=$(shuf -i 1-50 -n 1)p
-        export SUCCESS=$(sed -n $RANDOM_SENTENCE .github/workflows/funny_quotes.txt)
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$SUCCESS"'"}' $SLACK_WEBHOOK_URL
-      name: FunnyQuote
+    # - run: |-
+    #     export RANDOM_SENTENCE=$(shuf -i 1-50 -n 1)p
+    #     export SUCCESS=$(sed -n $RANDOM_SENTENCE .github/workflows/funny_quotes.txt)
+    #     curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$SUCCESS"'"}' $SLACK_WEBHOOK_URL
+    #   name: FunnyQuote
