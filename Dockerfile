@@ -6,10 +6,12 @@ ENV NODE_ENV production
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json /usr/src/app
+COPY --chown=node:node package*.json /usr/src/app/
 
 RUN npm ci --production-only
 
 COPY --chown=node:node . /usr/src/app
+
+USER node
 
 CMD ["dumb-init", "node", "app.js"]

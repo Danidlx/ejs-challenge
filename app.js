@@ -18,8 +18,8 @@ const DB_USER = process.env.DB_USER || "root";
 const DB_PASSWORD = process.env.DB_PASSWORD || "pass";
 
 //mongoose.connect("mongodb://127.0.0.1:27017/blogDB", {useNewUrlParser: true});
-//mongoose.connect("mongodb://"+DB_USER+":"+DB_PASSWORD+"@"+DB_HOST+":"+DB_PORT+"/"+DB_NAME, {useNewUrlParser: true});
-mongoose.connect("mongodb://"+DB_HOST+":"+DB_PORT+"/"+DB_NAME, {useNewUrlParser: true});
+mongoose.connect("mongodb://"+DB_USER+":"+DB_PASSWORD+"@"+DB_HOST+":"+DB_PORT+"/"+DB_NAME, {useNewUrlParser: true});
+//mongoose.connect("mongodb://"+DB_HOST+":"+DB_PORT+"/"+DB_NAME, {useNewUrlParser: true});
 // function Post(title,text) {
 // 	this.title = title;
 // 	this.text = text;
