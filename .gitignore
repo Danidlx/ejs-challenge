@@ -42,7 +42,7 @@ node_modules/
 jspm_packages/
 
 # Helm manifests
-helm/
+#helm/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
