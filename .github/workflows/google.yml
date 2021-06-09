@@ -84,13 +84,15 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y yq
         yq w helm/ejs-challenge/values.yaml "image.tag" "$GITHUB_SHA"
+        git commit -m "update chart image tag (gh actions)" helm/ejs-challenge/values.yaml
+        git push origin master
 
-    - name: Commit changes
-      id: commit-changes
-      uses: EndBug/add-and-commit@v7
-      with:
-        author_name: github-actions
-        add: './helm/ejs-challenge/values.yaml'
+    # - name: Commit changes
+    #   id: commit-changes
+    #   uses: EndBug/add-and-commit@v7
+    #   with:
+    #     author_name: github-actions
+    #     add: './helm/ejs-challenge/values.yaml'
 
     # Push the Docker image to Google Container Registry
     # - name: Publish
