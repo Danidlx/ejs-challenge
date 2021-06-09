@@ -74,6 +74,23 @@ jobs:
         fail-build: false
         debug: true
         severity-cutoff: "medium"      
+    
+
+    # Update Helm Chart
+    - name: Replace Image on Helm Chart
+      id: update-helm-chart
+      run: |-
+        sudo add-apt-repository ppa:rmescandon/yq
+        sudo apt-get update
+        sudo apt-get install -y yq
+        yq w helm/ejs-challenge/values.yaml "image.tag" "$GITHUB_SHA"
+
+    - name: Commit changes
+      id: commit-changes
+      uses: EndBug/add-and-commit@v7
+      with:
+        author_name: github-actions
+        add: './helm/ejs-challenge/values.yaml'
 
     # Push the Docker image to Google Container Registry
     # - name: Publish
