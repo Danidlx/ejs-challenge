@@ -83,13 +83,15 @@ jobs:
         sudo add-apt-repository ppa:rmescandon/yq
         sudo apt-get update
         sudo apt-get install -y yq
-        yq w helm/ejs-challenge/values.yaml "image.tag" "$GITHUB_SHA"
-        ls -lha
+        yq w -i helm/ejs-challenge/values.yaml "image.tag" "$GITHUB_SHA"
+        
 
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    - name: Commit changes
+      id: commit-changes
+      uses: EndBug/add-and-commit@v7
       with:
-        commit_message: Update Helm Image Tag
-        repository: './helm/ejs-challenge/'
+        author_name: github_actions
+        add: './helm/ejs-challenge/values.yaml'
 
     # Push the Docker image to Google Container Registry
     # - name: Publish
