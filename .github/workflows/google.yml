@@ -33,47 +33,47 @@ jobs:
       id: git-checkout
       uses: actions/checkout@v2
 
-    # Setup gcloud CLI
-    - uses: google-github-actions/setup-gcloud@v0.2.0
-      id: setup-cloud
-      with:
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
-        project_id: ${{ secrets.GKE_PROJECT }}
+    # # Setup gcloud CLI
+    # - uses: google-github-actions/setup-gcloud@v0.2.0
+    #   id: setup-cloud
+    #   with:
+    #     service_account_key: ${{ secrets.GKE_SA_KEY }}
+    #     project_id: ${{ secrets.GKE_PROJECT }}
 
-    # Configure Docker to use the gcloud command-line tool as a credential
-    # helper for authentication
-    - run: |-
-        gcloud --quiet auth configure-docker
-      id: configure-docker  
+    # # Configure Docker to use the gcloud command-line tool as a credential
+    # # helper for authentication
+    # - run: |-
+    #     gcloud --quiet auth configure-docker
+    #   id: configure-docker  
 
-    # Get the GKE credentials so we can deploy to the cluster
-    - uses: google-github-actions/get-gke-credentials@v0.2.1
-      id: get-cluster-credentials
-      with:
-        cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
-        credentials: ${{ secrets.GKE_SA_KEY }}
+    # # Get the GKE credentials so we can deploy to the cluster
+    # - uses: google-github-actions/get-gke-credentials@v0.2.1
+    #   id: get-cluster-credentials
+    #   with:
+    #     cluster_name: ${{ env.GKE_CLUSTER }}
+    #     location: ${{ env.GKE_ZONE }}
+    #     credentials: ${{ secrets.GKE_SA_KEY }}
 
-    # Build the Docker image
-    - name: Build
-      id: docker-build
-      run: |-
-        docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          .
+    # # Build the Docker image
+    # - name: Build
+    #   id: docker-build
+    #   run: |-
+    #     docker build \
+    #       --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
+    #       --build-arg GITHUB_SHA="$GITHUB_SHA" \
+    #       --build-arg GITHUB_REF="$GITHUB_REF" \
+    #       .
 
-    - name: Anchore scan
-      uses: anchore/scan-action@v2
-      id: scan
-      with:
-        image: "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
-        grype-version: "0.9.0"
-        acs-report-enable: false
-        fail-build: false
-        debug: true
-        severity-cutoff: "medium"      
+    # - name: Anchore scan
+    #   uses: anchore/scan-action@v2
+    #   id: scan
+    #   with:
+    #     image: "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+    #     grype-version: "0.9.0"
+    #     acs-report-enable: false
+    #     fail-build: false
+    #     debug: true
+    #     severity-cutoff: "medium"      
     
 
     # Update Helm Chart
