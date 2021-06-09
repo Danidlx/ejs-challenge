@@ -89,7 +89,7 @@ jobs:
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Update Helm Image Tag
-        repository: './helm/ejs-challenge/values.yaml'
+        repository: './helm/ejs-challenge/'
 
     # Push the Docker image to Google Container Registry
     # - name: Publish
