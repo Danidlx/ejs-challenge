@@ -10,7 +10,7 @@ image:
   repository: gcr.io/ead-ucam/ejs-actions
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: dc0ce9d0e5d99422bdbcba9770f17803417ab0b2
+  tag: 7728dbc12353aa111c3902624fcc676e92b877f9
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
