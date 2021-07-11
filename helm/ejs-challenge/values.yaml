@@ -60,10 +60,10 @@ resources:
     cpu: "25m"
     memory: "500Mi"
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
+  maxReplicas: 7
+  targetCPUUtilizationPercentage: 70
   # targetMemoryUtilizationPercentage: 80
 nodeSelector: {}
 tolerations: []
@@ -72,8 +72,8 @@ envMap:
   DB_HOST: mongo
   DB_NAME: ejsDB
   DB_PORT: 27017
-  DB_USER: root
-  DB_PASSWORD: "51wr1LHwdL"
+  DB_USER: "vault:secret/data/mongo#DB_USER"
+  DB_PASSWORD: "vault:secret/data/mongo#DB_PASSWORD"
 persistence:
   enable: false
   existingUploadsClaim: "sites-baja-pv-claim"
